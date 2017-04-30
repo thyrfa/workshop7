@@ -123,6 +123,13 @@ function resetCollection(db, name, cb) {
 }
 
 /**
+ * Adds any desired indexes to the database.
+ */
+function addIndexes(db, cb) {
+  db.collection('feedItems').createIndex({ "contents.contents": "text" }, null, cb);
+}
+
+/**
  * Reset the MongoDB database.
  * @param db The database connection.
  */
@@ -142,7 +149,7 @@ function resetDatabase(db, cb) {
       // Use myself as a callback.
       resetCollection(db, collection, processNextCollection);
     } else {
-      cb();
+      addIndexes(db, cb);
     }
   }
 
